@@ -31,13 +31,20 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
+// to create blogstatus for make three stage
+enum BlogStatus{
+  DRAFT
+  PUBLISHED 
+  ACHIVED
+}
+
 model Blog {
   id          String   @id @default(uuid())
   title       String
   content     String   @db.LongText
   summary     String?  @db.Text
 
-  published   Boolean  @default(false)
+  status   BlogStatus  @default(DRAFT)
 
   authorId    String
   author      User     @relation(fields: [authorId], references: [id])
