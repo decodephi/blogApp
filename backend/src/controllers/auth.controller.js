@@ -5,6 +5,9 @@ import generateToken from "../utils/generateToken.js";
 import dotenv from "dotenv";
 dotenv.config();
 
+
+
+
 export const register = async (req, res) => {
     try {
         const { name, email, password } = req.body;
@@ -150,3 +153,35 @@ export const getMe = async (req, res) => {
 
   }
 };
+
+
+// request for the uuser toupdate author
+
+export const createRequest = async (req, res)=>{
+
+    const existing = await prisma.reaquest.findUnique({
+        where :{
+            userId: req.user.id
+        }
+    })
+
+
+    if (existing){
+          return res.status(400).json({
+            message: "you already have a pending request"
+          })
+    }
+
+
+    const request = await prisma.authorRequest.create({
+        data:{
+            userId: req.user.id,
+            status: "PENDING"
+        }
+    })
+
+    res.status(201).json({
+        message: "Request created successfully",
+        request
+    })
+}
