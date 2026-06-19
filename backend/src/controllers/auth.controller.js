@@ -209,3 +209,45 @@ export const getRequests = async (req, res) => {
         requests
     })
 }
+
+// approve request for author
+
+export const approveRequest = async (req, res) => {
+
+
+
+    const request = await prisma.authorRequest.findUnique({
+        where: {
+            id: req.params.id
+        }
+    })
+
+    if (!request) {
+        return res.status(404).json({
+            message: "Request not found"
+        })
+    }
+
+    await prisma.user.update({
+        where: {
+            id: request.userId
+        },
+        data: {
+            role: "AUTHOR"
+        }
+    })
+
+    await prisma.authorRequest.update({
+        where: {
+            id: req.params.id
+        },
+        data: {
+            status: "APPROVED"
+        }
+    })
+
+    res.status(200).json({
+        message: "Request approved successfully"
+    })
+
+}
