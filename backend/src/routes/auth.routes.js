@@ -21,4 +21,18 @@ router.get(
   getMe
 );
 
+// router.post(
+//  "/blogs",
+//  authMiddleware,
+//  roleMiddleware("AUTHOR"),
+//  createBlog
+// );
+
+// router.patch(
+//  "/approve/:id",
+//  authMiddleware,
+//  roleMiddleware("ADMIN"),
+//  approveRequest
+// );
+
 export default router;
