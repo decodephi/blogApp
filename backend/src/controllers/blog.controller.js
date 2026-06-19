@@ -9,7 +9,13 @@ export const createBlog = async (req, res) => {
 
         const { title, content } = req.body;
 
-        const blog = await prisma.blog.create({ data: { title, content, author: req.user.id } });
+        const blog = await prisma.blog.create({
+            data: {
+                title,
+                content,
+                authorId: req.user.id
+            }
+        });
 
         res.status(201).json(blog);
 
@@ -18,10 +24,10 @@ export const createBlog = async (req, res) => {
     }
 }
 
-export const getBlogs = async (req, res)=>{
+export const getBlogs = async (req, res) => {
 
     const blogs = await prisma.blog.findMany({
-        where:{
+        where: {
             status: "PUBLISHED"
         },
 
@@ -34,72 +40,72 @@ export const getBlogs = async (req, res)=>{
 
 
 export const getMyBlogs =
-async (req, res) => {
+    async (req, res) => {
 
-  const blogs = await prisma.blog.findMany({
+        const blogs = await prisma.blog.findMany({
 
-    where: {
-      authorId: req.user.id
-    }
+            where: {
+                authorId: req.user.id
+            }
 
-  });
+        });
 
-  res.json(blogs);
-};
+        res.json(blogs);
+    };
 
 
 
 export const updateBlog =
-async (req,res)=>{
+    async (req, res) => {
 
- const blog = await prisma.blog.update({
+        const blog = await prisma.blog.update({
 
-   where:{
-     id:req.params.id
-   },
+            where: {
+                id: req.params.id
+            },
 
-   data:req.body
+            data: req.body
 
- });
+        });
 
- res.json(blog);
+        res.json(blog);
 
-};
+    };
 
 
 export const deleteBlog =
-async (req,res)=>{
+    async (req, res) => {
 
- await prisma.blog.delete({
+        await prisma.blog.delete({
 
-   where:{
-     id:req.params.id
-   }
+            where: {
+                id: req.params.id
+            }
 
- });
+        });
 
- res.json({
-   message:"Deleted"
- });
+        res.json({
+            message: "Deleted"
+        });
 
-};
+    };
 
 
 export const publishBlog =
-async (req,res)=>{
+    async (req, res) => {
 
- const blog = await prisma.blog.update({
+        const blog = await prisma.blog.update({
 
-   where:{
-     id:req.params.id
-   },
+            where: {
+                id: req.params.id
+            },
 
-   data:{
-     status:"PUBLISHED"
-   }
+            data: {
+                status: "PUBLISHED"
+            }
 
- });
+        });
 
- res.json(blog);
+        res.json(blog);
 
-};
+    };
