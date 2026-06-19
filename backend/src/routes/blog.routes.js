@@ -1,0 +1,57 @@
+import express from 'express'
+console.log("blog route loaded")
+
+const router = express.Router()
+
+import authMiddleware from '../middleware/auth.middleware.js';
+import roleMiddleware from '../middleware/role.middleware.js';
+import {
+  createBlog,
+  getBlogs,
+  getMyBlogs,
+  updateBlog,
+  deleteBlog,
+  publishBlog
+} from '../controllers/blog.controller.js';
+
+
+router.post('/', authMiddleware,
+    roleMiddleware(
+        "AUTHOR",
+        "ADMIN"
+    ),
+    createBlog)
+
+
+router.get('/', getBlogs);
+
+
+router.get(
+  "/my-blogs",
+  authMiddleware,
+  getMyBlogs
+);
+
+
+router.put(
+ "/:id",
+ authMiddleware,
+ updateBlog
+);
+
+
+router.delete(
+ "/:id",
+ authMiddleware,
+ deleteBlog
+);
+
+
+router.patch(
+ "/:id/publish",
+ authMiddleware,
+ roleMiddleware("AUTHOR"),
+ publishBlog
+);
+
+export default router;

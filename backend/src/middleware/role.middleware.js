@@ -1,3 +1,8 @@
+
+
+console.log(req.user);
+
+
 const roleMiddleware = (...roles)=>{
     return async (req, res, next)=>{
         if (!roles.includes(req.user.role)){

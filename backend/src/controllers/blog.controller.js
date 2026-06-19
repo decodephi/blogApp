@@ -17,3 +17,89 @@ export const createBlog = async (req, res) => {
         res.status(500).json({ message: error.message })
     }
 }
+
+export const getBlogs = async (req, res)=>{
+
+    const blogs = await prisma.blog.findMany({
+        where:{
+            status: "PUBLISHED"
+        },
+
+        include: {
+            author: true
+        }
+    })
+    res.json(blogs);
+}
+
+
+export const getMyBlogs =
+async (req, res) => {
+
+  const blogs = await prisma.blog.findMany({
+
+    where: {
+      authorId: req.user.id
+    }
+
+  });
+
+  res.json(blogs);
+};
+
+
+
+export const updateBlog =
+async (req,res)=>{
+
+ const blog = await prisma.blog.update({
+
+   where:{
+     id:req.params.id
+   },
+
+   data:req.body
+
+ });
+
+ res.json(blog);
+
+};
+
+
+export const deleteBlog =
+async (req,res)=>{
+
+ await prisma.blog.delete({
+
+   where:{
+     id:req.params.id
+   }
+
+ });
+
+ res.json({
+   message:"Deleted"
+ });
+
+};
+
+
+export const publishBlog =
+async (req,res)=>{
+
+ const blog = await prisma.blog.update({
+
+   where:{
+     id:req.params.id
+   },
+
+   data:{
+     status:"PUBLISHED"
+   }
+
+ });
+
+ res.json(blog);
+
+};
