@@ -65,7 +65,7 @@ enum RequestStatus {
   REJECTED
 }
 
-// author request to admin for get an author
+// user request to admin for get an author
 
 model AuthorRequest {
   id String @id @default(uuid())
