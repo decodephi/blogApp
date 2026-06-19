@@ -20,35 +20,61 @@ enum Role {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  name      String
-  email     String   @unique
-  password  String
-  role      Role     @default(READER)
+  id       String @id @default(uuid())
+  name     String
+  email    String @unique
+  password String
+  role     Role   @default(READER)
 
-  blogs     Blog[]
+  blogs Blog[]
+
+  authorRequest AuthorRequest?
+
   createdAt DateTime @default(now())
+
   updatedAt DateTime @updatedAt
 }
 
 // to create blogstatus for make three stage
-enum BlogStatus{
+enum BlogStatus {
   DRAFT
-  PUBLISHED 
+  PUBLISHED
   ACHIVED
 }
 
 model Blog {
-  id          String   @id @default(uuid())
-  title       String
-  content     String   @db.LongText
-  summary     String?  @db.Text
+  id      String  @id @default(uuid())
+  title   String
+  content String  @db.LongText
+  summary String? @db.Text
 
-  status   BlogStatus  @default(DRAFT)
+  status BlogStatus @default(DRAFT)
 
-  authorId    String
-  author      User     @relation(fields: [authorId], references: [id])
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// create schema for autherization 
+
+enum RequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+// author request to admin for get an author
+
+model AuthorRequest {
+  id String @id @default(uuid())
+
+  userId String @unique
+
+  user User @relation(fields: [userId], references: [id])
+
+  status RequestStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
 }
