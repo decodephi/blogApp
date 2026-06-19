@@ -14,7 +14,7 @@ dotenv.config();
 
 export const createRequest = async (req, res) => {
 
-    const existing = await prisma.reaquest.findUnique({
+    const existing = await prisma.authorRequest.findUnique({
         where: {
             userId: req.user.id
         }
