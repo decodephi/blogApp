@@ -93,7 +93,8 @@ export const login = async (req, res) => {
         }
 
         const token = jwt.sign(
-            { id: user.id ,
+            {
+                id: user.id,
                 role: user.role
             },
             process.env.JWT_SECRET,
@@ -125,56 +126,56 @@ export const login = async (req, res) => {
 
 
 export const getMe = async (req, res) => {
-  try {
+    try {
 
-    const user = await prisma.user.findUnique({
-      where: {
-        id: req.user.id
-      },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        role: true
-      }
-    });
+        const user = await prisma.user.findUnique({
+            where: {
+                id: req.user.id
+            },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                role: true
+            }
+        });
 
-    res.status(200).json({
-      success: true,
-      user
-    });
+        res.status(200).json({
+            success: true,
+            user
+        });
 
-  } catch (error) {
+    } catch (error) {
 
-    res.status(500).json({
-      success: false,
-      message: error.message
-    });
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
 
-  }
+    }
 };
 
 
 // request for the uuser toupdate author
 
-export const createRequest = async (req, res)=>{
+export const createRequest = async (req, res) => {
 
     const existing = await prisma.reaquest.findUnique({
-        where :{
+        where: {
             userId: req.user.id
         }
     })
 
 
-    if (existing){
-          return res.status(400).json({
+    if (existing) {
+        return res.status(400).json({
             message: "you already have a pending request"
-          })
+        })
     }
 
 
     const request = await prisma.authorRequest.create({
-        data:{
+        data: {
             userId: req.user.id,
             status: "PENDING"
         }
@@ -183,5 +184,28 @@ export const createRequest = async (req, res)=>{
     res.status(201).json({
         message: "Request created successfully",
         request
+    })
+}
+
+
+
+// admin view requests
+
+
+
+export const getRequests = async (req, res) => {
+
+    const requests = await prisma.authorRequest.findMany({
+
+        include: {
+            user: true
+        }
+
+    })
+
+
+    res.status(200).json({
+        message: "Requests fetched successfully",
+        requests
     })
 }
