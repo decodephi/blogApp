@@ -156,3 +156,24 @@ export const getMe = async (req, res) => {
 };
 
 
+export const makeAdmin = async (req, res) => {
+  try {
+    const user = await prisma.user.update({
+      where: {
+        email: "pranab@gmail.com"
+      },
+      data: {
+        role: "ADMIN"
+      }
+    });
+
+    res.json(user);
+
+  } catch (error) {
+    res.status(500).json({
+      message: error.message
+    });
+  }
+};
+
+
