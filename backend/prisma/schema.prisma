@@ -48,6 +48,10 @@ model Blog {
   content String  @db.LongText
   summary String? @db.Text
 
+  slug String @unique
+
+  coverImage String?
+
   status BlogStatus @default(DRAFT)
 
   authorId String
