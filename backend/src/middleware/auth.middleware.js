@@ -24,6 +24,8 @@ const authMiddleware =
 
       req.user = decoded;
 
+      console.log("Decoded JWT:", decoded);
+
       next();
 
     } catch (error) {

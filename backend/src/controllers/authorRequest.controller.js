@@ -49,6 +49,8 @@ export const createRequest = async (req, res) => {
 
 export const getRequests = async (req, res) => {
 
+    console.log("Inside getRequests");
+
     const requests = await prisma.authorRequest.findMany({
 
         include: {
