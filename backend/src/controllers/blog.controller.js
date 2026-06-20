@@ -1,12 +1,26 @@
 
 import prisma from '../config/prisma.js';
 import slugify from "slugify";
+import cloudinary from "../config/cloudinary.js";
 
 
 
 export const createBlog = async (req, res) => {
 
     try {
+
+        let imageUrl = "";
+
+        if (req.file) {
+
+            const result =
+                await cloudinary.uploader.upload(
+                    req.file.path
+                );
+
+            imageUrl =
+                result.secure_url;
+        }
 
         const { title, content } = req.body;
 
