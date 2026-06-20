@@ -1,5 +1,6 @@
 
 import prisma from '../config/prisma.js';
+import slugify from "slugify";
 
 
 
@@ -9,10 +10,18 @@ export const createBlog = async (req, res) => {
 
         const { title, content } = req.body;
 
+
+        const slug = slugify(title, {
+            lower: true,
+            strict: true
+        });
+
+
         const blog = await prisma.blog.create({
             data: {
                 title,
                 content,
+                slug,
                 authorId: req.user.id
             }
         });
@@ -109,3 +118,16 @@ export const publishBlog =
         res.json(blog);
 
     };
+
+
+
+export const getBlogBySlug = async (req, res) => {
+
+    const blog = await prisma.blog.findUnique({
+        where: {
+            slug: req.params.slug
+        }
+    });
+
+    res.json(blog);
+};
