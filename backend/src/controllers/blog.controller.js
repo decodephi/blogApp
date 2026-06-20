@@ -36,6 +36,7 @@ export const createBlog = async (req, res) => {
                 title,
                 content,
                 slug,
+                coverImage: imageUrl,
                 authorId: req.user.id
             }
         });

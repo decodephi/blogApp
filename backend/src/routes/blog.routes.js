@@ -14,6 +14,7 @@ import {
   publishBlog,
   getBlogBySlug
 } from '../controllers/blog.controller.js';
+import upload from "../middleware/upload.middleware.js";
 
 
 router.post('/', authMiddleware,
@@ -21,6 +22,7 @@ router.post('/', authMiddleware,
     "AUTHOR",
     "ADMIN"
   ),
+  upload.single("image"),
   createBlog)
 
 
@@ -37,6 +39,7 @@ router.get(
 router.put(
   "/:id",
   authMiddleware,
+  upload.single("image"),
   updateBlog
 );
 
@@ -60,15 +63,6 @@ router.get(
   getBlogBySlug
 );
 
-router.post(
-  "/",
-  authMiddleware,
-  roleMiddleware(
-    "AUTHOR",
-    "ADMIN"
-  ),
-  upload.single("image"),
-  createBlog
-);
+
 
 export default router;
