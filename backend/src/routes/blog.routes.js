@@ -11,7 +11,8 @@ import {
   getMyBlogs,
   updateBlog,
   deleteBlog,
-  publishBlog
+  publishBlog,
+  getBlogBySlug
 } from '../controllers/blog.controller.js';
 
 
@@ -52,6 +53,11 @@ router.patch(
  authMiddleware,
  roleMiddleware("AUTHOR"),
  publishBlog
+);
+
+router.get(
+  "/slug/:slug",
+  getBlogBySlug
 );
 
 export default router;
