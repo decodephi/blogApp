@@ -17,11 +17,11 @@ import {
 
 
 router.post('/', authMiddleware,
-    roleMiddleware(
-        "AUTHOR",
-        "ADMIN"
-    ),
-    createBlog)
+  roleMiddleware(
+    "AUTHOR",
+    "ADMIN"
+  ),
+  createBlog)
 
 
 router.get('/', getBlogs);
@@ -35,29 +35,40 @@ router.get(
 
 
 router.put(
- "/:id",
- authMiddleware,
- updateBlog
+  "/:id",
+  authMiddleware,
+  updateBlog
 );
 
 
 router.delete(
- "/:id",
- authMiddleware,
- deleteBlog
+  "/:id",
+  authMiddleware,
+  deleteBlog
 );
 
 
 router.patch(
- "/:id/publish",
- authMiddleware,
- roleMiddleware("AUTHOR"),
- publishBlog
+  "/:id/publish",
+  authMiddleware,
+  roleMiddleware("AUTHOR"),
+  publishBlog
 );
 
 router.get(
   "/slug/:slug",
   getBlogBySlug
+);
+
+router.post(
+  "/",
+  authMiddleware,
+  roleMiddleware(
+    "AUTHOR",
+    "ADMIN"
+  ),
+  upload.single("image"),
+  createBlog
 );
 
 export default router;
