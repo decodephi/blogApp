@@ -126,6 +126,10 @@ export const getBlogBySlug = async (req, res) => {
     const blog = await prisma.blog.findUnique({
         where: {
             slug: req.params.slug
+        },
+
+        include: {
+            author: true
         }
     });
 
