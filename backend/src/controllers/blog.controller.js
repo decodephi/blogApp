@@ -2,6 +2,7 @@
 import prisma from '../config/prisma.js';
 import slugify from "slugify";
 import cloudinary from "../config/cloudinary.js";
+import { generateSummary } from "../services/summary.service.js";
 
 
 
@@ -124,19 +125,33 @@ export const deleteBlog =
 
 export const publishBlog = async (req, res) => {
 
-    console.log("Blog ID:", req.params.id);
+    const existingBlog =
+        await prisma.blog.findUnique({
 
-    const blog = await prisma.blog.update({
+            where: {
+                id: req.params.id
+            }
 
-        where: {
-            id: req.params.id
-        },
+        });
 
-        data: {
-            status: "PUBLISHED"
-        }
+    const summary =
+        await generateSummary(
+            existingBlog.content
+        );
 
-    });
+    const blog =
+        await prisma.blog.update({
+
+            where: {
+                id: req.params.id
+            },
+
+            data: {
+                status: "PUBLISHED",
+                summary
+            }
+
+        });
 
     res.json(blog);
 
