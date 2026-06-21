@@ -7,6 +7,7 @@ import blogRoutes from "./routes/blog.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
 
 import bookmarkRoutes from "./routes/bookmark.routes.js";
+import likeRoutes from "./routes/like.routes.js";
 
 const app = express();
 
@@ -14,6 +15,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/bookmarks", bookmarkRoutes);
+
+app.use("/api/likes", likeRoutes);
 
 app.use("/api/author-requests", authorRequestRoutes);
 
