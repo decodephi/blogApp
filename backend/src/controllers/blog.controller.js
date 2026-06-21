@@ -122,24 +122,25 @@ export const deleteBlog =
     };
 
 
-export const publishBlog =
-    async (req, res) => {
+export const publishBlog = async (req, res) => {
 
-        const blog = await prisma.blog.update({
+    console.log("Blog ID:", req.params.id);
 
-            where: {
-                id: req.params.id
-            },
+    const blog = await prisma.blog.update({
 
-            data: {
-                status: "PUBLISHED"
-            }
+        where: {
+            id: req.params.id
+        },
 
-        });
+        data: {
+            status: "PUBLISHED"
+        }
 
-        res.json(blog);
+    });
 
-    };
+    res.json(blog);
+
+};
 
 
 
