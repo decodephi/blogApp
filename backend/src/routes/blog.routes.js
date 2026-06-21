@@ -12,7 +12,8 @@ import {
   updateBlog,
   deleteBlog,
   publishBlog,
-  getBlogBySlug
+  getBlogBySlug,
+  getSummary
 } from '../controllers/blog.controller.js';
 import upload from "../middleware/upload.middleware.js";
 
@@ -63,6 +64,10 @@ router.get(
   getBlogBySlug
 );
 
+router.get(
+  "/:id/summary",
+  getSummary
+);
 
 
 export default router;
