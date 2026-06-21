@@ -117,15 +117,9 @@ model Bookmark {
   userId String
   blogId String
 
-  user User @relation(
-    fields:[userId],
-    references:[id]
-  )
+  user User @relation( fields:[userId], references:[id])
 
-  blog Blog @relation(
-    fields:[blogId],
-    references:[id]
-  )
+  blog Blog @relation( fields:[blogId],references:[id])
 
   createdAt DateTime @default(now())
 
