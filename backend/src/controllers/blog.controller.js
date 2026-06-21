@@ -87,8 +87,7 @@ export const getMyBlogs =
 
 
 
-export const updateBlog =
-    async (req, res) => {
+export const updateBlog = async (req, res) => {
 
         const blog = await prisma.blog.update({
 
@@ -96,7 +95,11 @@ export const updateBlog =
                 id: req.params.id
             },
 
-            data: req.body
+             data:{
+   views:{
+     increment:1
+   }
+ }
 
         });
 
@@ -125,8 +128,7 @@ export const deleteBlog =
 
 export const publishBlog = async (req, res) => {
 
-    const existingBlog =
-        await prisma.blog.findUnique({
+    const existingBlog = await prisma.blog.findUnique({
 
             where: {
                 id: req.params.id
@@ -134,13 +136,11 @@ export const publishBlog = async (req, res) => {
 
         });
 
-    const summary =
-        await generateSummary(
+    const summary = await generateSummary(
             existingBlog.content
         );
 
-    const blog =
-        await prisma.blog.update({
+    const blog = await prisma.blog.update({
 
             where: {
                 id: req.params.id
