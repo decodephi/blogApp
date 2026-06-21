@@ -52,6 +52,9 @@ model Blog {
 
   coverImage String?
 
+  views      Int @default(0)
+  likes      Int @default(0)
+
   status BlogStatus @default(DRAFT)
 
   authorId String
