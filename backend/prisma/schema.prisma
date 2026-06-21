@@ -27,6 +27,7 @@ model User {
   role     Role   @default(READER)
 
   blogs Blog[]
+  likes Like[]
 
   authorRequest AuthorRequest?
 
@@ -54,6 +55,7 @@ model Blog {
 
   views      Int @default(0)
   likes      Int @default(0)
+  likesRelation Like[]
 
   status BlogStatus @default(DRAFT)
 
