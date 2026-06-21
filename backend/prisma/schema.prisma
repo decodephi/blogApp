@@ -28,6 +28,7 @@ model User {
 
   blogs Blog[]
   likes Like[]
+  bookmarks Bookmark[]
 
   authorRequest AuthorRequest?
 
@@ -56,6 +57,8 @@ model Blog {
   views      Int @default(0)
   likes      Int @default(0)
   likesRelation Like[]
+
+  bookmarks Bookmark[]
 
   status BlogStatus @default(DRAFT)
 
@@ -99,6 +102,30 @@ model Like {
 
   user    User @relation(fields:[userId], references:[id])
   blog    Blog @relation(fields:[blogId], references:[id])
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, blogId])
+}
+
+
+
+model Bookmark {
+
+  id String @id @default(uuid())
+
+  userId String
+  blogId String
+
+  user User @relation(
+    fields:[userId],
+    references:[id]
+  )
+
+  blog Blog @relation(
+    fields:[blogId],
+    references:[id]
+  )
 
   createdAt DateTime @default(now())
 
