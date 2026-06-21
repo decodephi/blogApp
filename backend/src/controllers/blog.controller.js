@@ -173,3 +173,22 @@ export const getBlogBySlug = async (req, res) => {
 
     res.json(blog);
 };
+
+export const getSummary = async (req, res) => {
+
+    const blog =
+        await prisma.blog.findUnique({
+
+            where: {
+                id: req.params.id
+            },
+
+            select: {
+                summary: true
+            }
+
+        });
+
+    res.json(blog);
+
+};
