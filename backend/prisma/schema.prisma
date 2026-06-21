@@ -85,3 +85,20 @@ model AuthorRequest {
 
   createdAt DateTime @default(now())
 }
+
+
+// to count likes
+
+model Like {
+  id      String @id @default(uuid())
+
+  userId  String
+  blogId  String
+
+  user    User @relation(fields:[userId], references:[id])
+  blog    Blog @relation(fields:[blogId], references:[id])
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, blogId])
+}
