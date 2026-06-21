@@ -55,7 +55,11 @@ model Blog {
   coverImage String?
 
   views      Int @default(0)
-  likes      Int @default(0)
+  _count: {
+   select: {
+      likesRelation: true
+   }
+  }
   likesRelation Like[]
 
   bookmarks Bookmark[]
