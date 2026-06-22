@@ -30,6 +30,8 @@ model User {
   likes Like[]
   bookmarks Bookmark[]
 
+  comments Comment[]
+
   authorRequest AuthorRequest?
 
   createdAt DateTime @default(now())
@@ -55,14 +57,14 @@ model Blog {
   coverImage String?
 
   views      Int @default(0)
-  _count: {
-   select: {
-      likesRelation: true
-   }
-  }
+
+  likes Int @default(0)
+
   likesRelation Like[]
 
   bookmarks Bookmark[]
+
+  comments Comment[]
 
   status BlogStatus @default(DRAFT)
 
@@ -144,21 +146,11 @@ model Comment {
 
   parentId String?
 
-  user User @relation(
-    fields: [userId],
-    references: [id]
-  )
+  user User @relation( fields: [userId], references: [id])
 
-  blog Blog @relation(
-    fields: [blogId],
-    references: [id]
-  )
+  blog Blog @relation(fields: [blogId],references: [id])
 
-  parent Comment? @relation(
-    "CommentReplies",
-    fields: [parentId],
-    references: [id]
-  )
+  parent Comment? @relation( "CommentReplies",fields: [parentId],references: [id])
 
   replies Comment[] @relation("CommentReplies")
 
