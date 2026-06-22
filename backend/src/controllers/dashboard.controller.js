@@ -23,9 +23,9 @@ export const getStats = async (req, res) => {
     res.json({
 
         totalBlogs: blogs,
-
-        totalViews:
-            views._sum.views || 0
+        totalViews: views._sum.views || 0,
+        totalLikes: 0,
+        totalBookmarks: 0
 
     });
 
