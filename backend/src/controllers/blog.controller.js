@@ -23,7 +23,7 @@ export const createBlog = async (req, res) => {
                 result.secure_url;
         }
 
-        const { title, content } = req.body;
+        const { title, content, category } = req.body;
 
 
         if (!title || !content) {
@@ -89,23 +89,23 @@ export const getMyBlogs =
 
 export const updateBlog = async (req, res) => {
 
-        const blog = await prisma.blog.update({
+    const blog = await prisma.blog.update({
 
-            where: {
-                id: req.params.id
-            },
+        where: {
+            id: req.params.id
+        },
 
-             data:{
-   views:{
-     increment:1
-   }
- }
+        data: {
+            views: {
+                increment: 1
+            }
+        }
 
-        });
+    });
 
-        res.json(blog);
+    res.json(blog);
 
-    };
+};
 
 
 export const deleteBlog =
@@ -130,28 +130,28 @@ export const publishBlog = async (req, res) => {
 
     const existingBlog = await prisma.blog.findUnique({
 
-            where: {
-                id: req.params.id
-            }
+        where: {
+            id: req.params.id
+        }
 
-        });
+    });
 
     const summary = await generateSummary(
-            existingBlog.content
-        );
+        existingBlog.content
+    );
 
     const blog = await prisma.blog.update({
 
-            where: {
-                id: req.params.id
-            },
+        where: {
+            id: req.params.id
+        },
 
-            data: {
-                status: "PUBLISHED",
-                summary
-            }
+        data: {
+            status: "PUBLISHED",
+            summary
+        }
 
-        });
+    });
 
     res.json(blog);
 
