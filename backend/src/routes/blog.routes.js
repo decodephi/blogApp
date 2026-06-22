@@ -15,7 +15,8 @@ import {
   getBlogBySlug,
   getSummary,
   searchBlogs,
-  getBlogsByCategory
+  getBlogsByCategory,
+  getTrendingBlogs
 } from '../controllers/blog.controller.js';
 import upload from "../middleware/upload.middleware.js";
 
@@ -80,6 +81,11 @@ router.get(
 router.get(
  "/category/:category",
  getBlogsByCategory
+);
+
+router.get(
+ "/trending",
+ getTrendingBlogs
 );
 
 export default router;

@@ -276,3 +276,28 @@ export const getBlogsByCategory =
         res.json(blogs);
 
     };
+
+
+export const getTrendingBlogs =
+    async (req, res) => {
+
+        const blogs =
+            await prisma.blog.findMany({
+
+                where: {
+                    status: "PUBLISHED"
+                },
+
+                orderBy: [
+                    {
+                        views: "desc"
+                    }
+                ],
+
+                take: 5
+
+            });
+
+        res.json(blogs);
+
+    };
