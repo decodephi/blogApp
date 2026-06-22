@@ -14,7 +14,8 @@ import {
   publishBlog,
   getBlogBySlug,
   getSummary,
-  searchBlogs
+  searchBlogs,
+  getBlogsByCategory
 } from '../controllers/blog.controller.js';
 import upload from "../middleware/upload.middleware.js";
 
@@ -74,6 +75,11 @@ router.get(
 router.get(
  "/search",
  searchBlogs
+);
+
+router.get(
+ "/category/:category",
+ getBlogsByCategory
 );
 
 export default router;

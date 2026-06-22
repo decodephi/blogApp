@@ -237,3 +237,23 @@ async (req,res)=>{
  }
 
 };
+
+
+export const getBlogsByCategory =
+async(req,res)=>{
+
+ const blogs =
+ await prisma.blog.findMany({
+
+  where:{
+   status:"PUBLISHED",
+
+   category:
+   req.params.category
+  }
+
+ });
+
+ res.json(blogs);
+
+};
