@@ -124,16 +124,36 @@ export const deleteComment = async (req, res) => {
 
     try {
 
-        await prisma.comment.delete({
+        const comment =
+            await prisma.comment.findUnique({
+                where: {
+                    id: req.params.id
+                }
+            });
 
+        if (!comment) {
+            return res.status(404).json({
+                message: "Comment not found"
+            });
+        }
+
+        if (
+            comment.userId !== req.user.id &&
+            req.user.role !== "ADMIN"
+        ) {
+            return res.status(403).json({
+                message: "Not authorized"
+            });
+        }
+
+        await prisma.comment.delete({
             where: {
                 id: req.params.id
             }
-
         });
 
         res.status(200).json({
-            message: "Comment deleted"
+            message: "Comment deleted successfully"
         });
 
     } catch (error) {
