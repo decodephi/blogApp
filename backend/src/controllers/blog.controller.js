@@ -72,18 +72,37 @@ export const getBlogs = async (req, res) => {
 }
 
 
-export const getMyBlogs =
+export const getBlogs =
     async (req, res) => {
 
-        const blogs = await prisma.blog.findMany({
+        const page =
+            Number(req.query.page) || 1;
 
-            where: {
-                authorId: req.user.id
-            }
+        const limit =
+            Number(req.query.limit) || 10;
 
-        });
+        const skip =
+            (page - 1) * limit;
+
+        const blogs =
+            await prisma.blog.findMany({
+
+                where: {
+                    status: "PUBLISHED"
+                },
+
+                skip,
+
+                take: limit,
+
+                orderBy: {
+                    createdAt: "desc"
+                }
+
+            });
 
         res.json(blogs);
+
     };
 
 
@@ -197,63 +216,63 @@ export const getSummary = async (req, res) => {
 
 
 export const searchBlogs =
-async (req,res)=>{
+    async (req, res) => {
 
- try{
+        try {
 
-  const { q } = req.query;
+            const { q } = req.query;
 
-  const blogs =
-  await prisma.blog.findMany({
+            const blogs =
+                await prisma.blog.findMany({
 
-   where:{
-    status:"PUBLISHED",
+                    where: {
+                        status: "PUBLISHED",
 
-    OR:[
-      {
-       title:{
-        contains:q
-       }
-      },
+                        OR: [
+                            {
+                                title: {
+                                    contains: q
+                                }
+                            },
 
-      {
-       content:{
-        contains:q
-       }
-      }
-    ]
-   }
+                            {
+                                content: {
+                                    contains: q
+                                }
+                            }
+                        ]
+                    }
 
-  });
+                });
 
-  res.json(blogs);
+            res.json(blogs);
 
- }catch(error){
+        } catch (error) {
 
-  res.status(500).json({
-   message:error.message
-  });
+            res.status(500).json({
+                message: error.message
+            });
 
- }
+        }
 
-};
+    };
 
 
 export const getBlogsByCategory =
-async(req,res)=>{
+    async (req, res) => {
 
- const blogs =
- await prisma.blog.findMany({
+        const blogs =
+            await prisma.blog.findMany({
 
-  where:{
-   status:"PUBLISHED",
+                where: {
+                    status: "PUBLISHED",
 
-   category:
-   req.params.category
-  }
+                    category:
+                        req.params.category
+                }
 
- });
+            });
 
- res.json(blogs);
+        res.json(blogs);
 
-};
+    };
