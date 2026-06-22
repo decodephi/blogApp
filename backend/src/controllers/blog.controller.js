@@ -301,3 +301,39 @@ export const getTrendingBlogs =
         res.json(blogs);
 
     };
+
+
+
+export const getRelatedBlogs =
+    async (req, res) => {
+
+        const blog =
+            await prisma.blog.findUnique({
+
+                where: {
+                    id: req.params.id
+                }
+
+            });
+
+        const related =
+            await prisma.blog.findMany({
+
+                where: {
+
+                    category:
+                        blog.category,
+
+                    NOT: {
+                        id: blog.id
+                    }
+
+                },
+
+                take: 4
+
+            });
+
+        res.json(related);
+
+    };
