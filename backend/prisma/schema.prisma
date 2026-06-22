@@ -129,3 +129,39 @@ model Bookmark {
 
   @@unique([userId, blogId])
 }
+
+
+// add comment realtiomn
+
+model Comment {
+
+  id String @id @default(uuid())
+
+  content String @db.Text
+
+  userId String
+  blogId String
+
+  parentId String?
+
+  user User @relation(
+    fields: [userId],
+    references: [id]
+  )
+
+  blog Blog @relation(
+    fields: [blogId],
+    references: [id]
+  )
+
+  parent Comment? @relation(
+    "CommentReplies",
+    fields: [parentId],
+    references: [id]
+  )
+
+  replies Comment[] @relation("CommentReplies")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
