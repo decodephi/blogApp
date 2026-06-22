@@ -9,10 +9,15 @@ import adminRoutes from "./routes/admin.routes.js";
 import bookmarkRoutes from "./routes/bookmark.routes.js";
 import likeRoutes from "./routes/like.routes.js";
 
+import commentRoutes from "./routes/comment.routes.js";
+
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+app.use("/api/comments", commentRoutes);
+
 
 app.use("/api/bookmarks", bookmarkRoutes);
 
