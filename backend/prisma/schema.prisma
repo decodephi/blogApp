@@ -52,6 +52,8 @@ model Blog {
   content String  @db.LongText
   summary String? @db.Text
 
+  category String?
+
   slug String @unique
 
   coverImage String?
