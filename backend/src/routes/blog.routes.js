@@ -13,7 +13,8 @@ import {
   deleteBlog,
   publishBlog,
   getBlogBySlug,
-  getSummary
+  getSummary,
+  searchBlogs
 } from '../controllers/blog.controller.js';
 import upload from "../middleware/upload.middleware.js";
 
@@ -69,5 +70,10 @@ router.get(
   getSummary
 );
 
+
+router.get(
+ "/search",
+ searchBlogs
+);
 
 export default router;

@@ -193,3 +193,47 @@ export const getSummary = async (req, res) => {
     res.json(blog);
 
 };
+
+
+
+export const searchBlogs =
+async (req,res)=>{
+
+ try{
+
+  const { q } = req.query;
+
+  const blogs =
+  await prisma.blog.findMany({
+
+   where:{
+    status:"PUBLISHED",
+
+    OR:[
+      {
+       title:{
+        contains:q
+       }
+      },
+
+      {
+       content:{
+        contains:q
+       }
+      }
+    ]
+   }
+
+  });
+
+  res.json(blogs);
+
+ }catch(error){
+
+  res.status(500).json({
+   message:error.message
+  });
+
+ }
+
+};
