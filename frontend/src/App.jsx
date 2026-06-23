@@ -66,6 +66,22 @@ function App() {
           }
         />
 
+
+        <Route
+          path="/become-author"
+          element={<BecomeAuthor />}
+        />
+
+        <Route
+          path="/my-blogs"
+          element={<MyBlogs />}
+        />
+
+        <Route
+          path="/edit-blog/:id"
+          element={<EditBlog />}
+        />
+
       </Routes>
 
     </>
