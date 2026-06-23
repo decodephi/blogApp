@@ -1,35 +1,38 @@
-import { Link }
-from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function BlogCard({ blog }) {
 
     return (
-
-        <div className="border p-4 rounded">
+        <div className="border rounded-lg shadow p-4 bg-white">
 
             <img
-                src={blog.coverImage}
+                src={
+                    blog.coverImage ||
+                    "https://via.placeholder.com/400x200?text=Blog+Image"
+                }
                 alt={blog.title}
-                className="h-48 w-full object-cover"
+                className="h-48 w-full object-cover rounded"
             />
 
-            <h2 className="text-xl font-bold mt-2">
+            <h2 className="text-xl font-bold mt-3">
                 {blog.title}
             </h2>
 
-            <p>
-                {blog.summary}
+            <p className="text-gray-600 mt-2">
+                {
+                    blog.summary ||
+                    blog.content.slice(0, 120) + "..."
+                }
             </p>
 
             <Link
                 to={`/blog/${blog.slug}`}
-                className="text-blue-500"
+                className="inline-block mt-3 text-blue-500"
             >
-                Read More
+                Read More →
             </Link>
 
         </div>
-
     );
 }
 
