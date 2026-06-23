@@ -13,6 +13,8 @@ import {
 }
   from "react-router-dom";
 
+
+
 function App() {
 
   return (
@@ -22,6 +24,10 @@ function App() {
 
       <Routes>
 
+        <Route path="/login" element={<Login />} />
+
+        <Route path="/register" element={<Register />} />
+
         <Route
           path="/"
           element={<Home />}
@@ -30,6 +36,24 @@ function App() {
         <Route
           path="/blog/:slug"
           element={<BlogDetails />}
+        />
+
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/create-blog"
+          element={
+            <ProtectedRoute>
+              <CreateBlog />
+            </ProtectedRoute>
+          }
         />
 
       </Routes>
