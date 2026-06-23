@@ -94,13 +94,26 @@ export const getBlogs =
 
 export const getMyBlogs = async (req, res) => {
 
-  const blogs = await prisma.blog.findMany({
-    where: {
-      authorId: req.user.id
-    }
-  });
+    try {
 
-  res.json(blogs);
+        const blogs = await prisma.blog.findMany({
+
+            where: {
+                authorId: req.user.id
+            }
+
+        });
+
+        res.status(200).json(blogs);
+
+    } catch (error) {
+
+        res.status(500).json({
+            message: error.message
+        });
+
+    }
+
 };
 
 export const updateBlog = async (req, res) => {
