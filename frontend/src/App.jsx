@@ -56,6 +56,16 @@ function App() {
           }
         />
 
+
+        <Route
+          path="/my-blogs"
+          element={
+            <ProtectedRoute>
+              <MyBlogs />
+            </ProtectedRoute>
+          }
+        />
+
       </Routes>
 
     </>
