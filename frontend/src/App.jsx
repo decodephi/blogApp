@@ -1,36 +1,45 @@
-import Navbar
-  from "./components/Navbar";
+import Navbar from "./components/Navbar";
 
-import Home
-  from "./pages/Home";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Dashboard from "./pages/Dashboard";
+import CreateBlog from "./pages/CreateBlog";
+import BlogDetails from "./pages/BlogDetails";
+import MyBlogs from "./pages/MyBlogs";
+import EditBlog from "./pages/EditBlog";
+import BecomeAuthor from "./pages/BecomeAuthor";
 
-import BlogDetails
-  from "./pages/BlogDetails";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 import {
   Routes,
   Route
-}
-  from "react-router-dom";
+} from "react-router-dom";
 
 
 
 function App() {
 
   return (
-
     <>
       <Navbar />
 
       <Routes>
 
-        <Route path="/login" element={<Login />} />
-
-        <Route path="/register" element={<Register />} />
-
         <Route
           path="/"
           element={<Home />}
+        />
+
+        <Route
+          path="/login"
+          element={<Login />}
+        />
+
+        <Route
+          path="/register"
+          element={<Register />}
         />
 
         <Route
@@ -56,7 +65,6 @@ function App() {
           }
         />
 
-
         <Route
           path="/my-blogs"
           element={
@@ -66,26 +74,26 @@ function App() {
           }
         />
 
+        <Route
+          path="/edit-blog/:id"
+          element={
+            <ProtectedRoute>
+              <EditBlog />
+            </ProtectedRoute>
+          }
+        />
 
         <Route
           path="/become-author"
-          element={<BecomeAuthor />}
-        />
-
-        <Route
-          path="/my-blogs"
-          element={<MyBlogs />}
-        />
-
-        <Route
-          path="/edit-blog/:id"
-          element={<EditBlog />}
+          element={
+            <ProtectedRoute>
+              <BecomeAuthor />
+            </ProtectedRoute>
+          }
         />
 
       </Routes>
-
     </>
-
   );
 }
 
