@@ -57,19 +57,6 @@ export const createBlog = async (req, res) => {
     }
 }
 
-export const getBlogs = async (req, res) => {
-
-    const blogs = await prisma.blog.findMany({
-        where: {
-            status: "PUBLISHED"
-        },
-
-        include: {
-            author: true
-        }
-    })
-    res.json(blogs);
-}
 
 
 export const getBlogs =
@@ -105,7 +92,16 @@ export const getBlogs =
 
     };
 
+export const getMyBlogs = async (req, res) => {
 
+  const blogs = await prisma.blog.findMany({
+    where: {
+      authorId: req.user.id
+    }
+  });
+
+  res.json(blogs);
+};
 
 export const updateBlog = async (req, res) => {
 
