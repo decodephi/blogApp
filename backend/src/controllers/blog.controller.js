@@ -157,32 +157,52 @@ export const deleteBlog =
 
 export const publishBlog = async (req, res) => {
 
-    const existingBlog = await prisma.blog.findUnique({
+    try {
 
-        where: {
-            id: req.params.id
+        const existingBlog = await prisma.blog.findUnique({
+
+            where: {
+                id: req.params.id
+            }
+
+        });
+
+        if (!existingBlog) {
+            return res.status(404).json({
+                message: "Blog not found"
+            });
         }
 
-    });
-
-    const summary = await generateSummary(
-        existingBlog.content
-    );
-
-    const blog = await prisma.blog.update({
-
-        where: {
-            id: req.params.id
-        },
-
-        data: {
-            status: "PUBLISHED",
-            summary
+        let summary = "";
+        try {
+            summary = await generateSummary(
+                existingBlog.content
+            );
+        } catch (summaryError) {
+            console.error("Summary generation failed:", summaryError);
+            summary = existingBlog.content.substring(0, 200) + "...";
         }
 
-    });
+        const blog = await prisma.blog.update({
 
-    res.json(blog);
+            where: {
+                id: req.params.id
+            },
+
+            data: {
+                status: "PUBLISHED",
+                summary
+            }
+
+        });
+
+        res.json(blog);
+
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        });
+    }
 
 };
 
@@ -205,20 +225,34 @@ export const getBlogBySlug = async (req, res) => {
 
 export const getSummary = async (req, res) => {
 
-    const blog =
-        await prisma.blog.findUnique({
+    try {
 
-            where: {
-                id: req.params.id
-            },
+        const blog =
+            await prisma.blog.findUnique({
 
-            select: {
-                summary: true
-            }
+                where: {
+                    id: req.params.id
+                },
 
+                select: {
+                    summary: true
+                }
+
+            });
+
+        if (!blog) {
+            return res.status(404).json({
+                message: "Blog not found"
+            });
+        }
+
+        res.json(blog);
+
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
         });
-
-    res.json(blog);
+    }
 
 };
 
