@@ -220,7 +220,7 @@ export default function BlogDetails() {
                                 color: "var(--text-secondary)", fontSize: 14, fontWeight: 500
                             }}>← Back to Home</Link>
                         </div>
-
+                        
                         {/* Comments */}
                         <CommentSection blogId={blog.id} />
                     </article>
