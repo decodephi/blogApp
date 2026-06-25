@@ -65,15 +65,9 @@ export default function Navbar() {
             }}>
                 {/* Logo */}
                 <Link to="/" style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                    <div style={{
-                        width: 34, height: 34,
-                        background: "linear-gradient(135deg, #7c3aed, #06b6d4)",
-                        borderRadius: 8,
-                        display: "flex", alignItems: "center", justifyContent: "center",
-                        fontSize: 16, fontWeight: 800, color: "#fff"
-                    }}>✦</div>
+                    
                     <span style={{
-                        fontSize: 20, fontWeight: 800,
+                        fontSize: 22, fontWeight: 800,
                         fontFamily: "'Playfair Display', serif",
                         background: "linear-gradient(135deg, #a78bfa, #67e8f9)",
                         WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent"
@@ -107,9 +101,6 @@ export default function Navbar() {
                 <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                     {!user ? (
                         <>
-                            <Link to="/login" className="btn btn-ghost btn-sm"
-                                style={{ display: "none" }}
-                                className="btn btn-ghost btn-sm">Login</Link>
                             <Link to="/login" style={{
                                 padding: "7px 16px", borderRadius: 8,
                                 fontSize: 14, fontWeight: 500,
@@ -210,7 +201,7 @@ export default function Navbar() {
                         }}
                         className="md:hidden"
                     >
-                        {[0,1,2].map(i => (
+                        {[0, 1, 2].map(i => (
                             <span key={i} style={{
                                 width: 18, height: 2,
                                 background: "currentColor",
@@ -218,8 +209,8 @@ export default function Navbar() {
                                 transition: "all 0.3s",
                                 transformOrigin: "center",
                                 transform: menuOpen && i === 0 ? "rotate(45deg) translate(4px, 4px)" :
-                                           menuOpen && i === 2 ? "rotate(-45deg) translate(4px, -4px)" :
-                                           menuOpen && i === 1 ? "scaleX(0)" : "none"
+                                    menuOpen && i === 2 ? "rotate(-45deg) translate(4px, -4px)" :
+                                        menuOpen && i === 1 ? "scaleX(0)" : "none"
                             }} />
                         ))}
                     </button>
