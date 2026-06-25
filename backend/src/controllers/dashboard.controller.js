@@ -1,32 +1,46 @@
+import prisma from "../config/prisma.js";
+
+
 export const getStats = async (req, res) => {
+    try {
+        const authorId = req.user.id;
 
-    const blogs = await prisma.blog.count({
+        // Get all blog IDs for this author to count related records
+        const authorBlogs = await prisma.blog.findMany({
+            where: { authorId },
+            select: { id: true }
+        });
 
-        where: {
-            authorId: req.user.id
-        }
+        const blogIds = authorBlogs.map(b => b.id);
 
-    });
+        const [totalBlogs, publishedBlogs, draftBlogs, viewsAgg, totalLikes, totalBookmarks, totalComments] =
+            await Promise.all([
+                prisma.blog.count({ where: { authorId } }),
+                prisma.blog.count({ where: { authorId, status: "PUBLISHED" } }),
+                prisma.blog.count({ where: { authorId, status: "DRAFT" } }),
+                prisma.blog.aggregate({
+                    where: { authorId },
+                    _sum: { views: true }
+                }),
+                prisma.like.count({ where: { blogId: { in: blogIds } } }),
+                prisma.bookmark.count({ where: { blogId: { in: blogIds } } }),
+                prisma.comment.count({ where: { blogId: { in: blogIds } } })
+            ]);
 
-    const views = await prisma.blog.aggregate({
+        res.json({
+            success: true,
+            stats: {
+                totalBlogs,
+                publishedBlogs,
+                draftBlogs,
+                totalViews: viewsAgg._sum.views || 0,
+                totalLikes,
+                totalBookmarks,
+                totalComments
+            }
+        });
 
-        where: {
-            authorId: req.user.id
-        },
-
-        _sum: {
-            views: true
-        }
-
-    });
-
-    res.json({
-
-        totalBlogs: blogs,
-        totalViews: views._sum.views || 0,
-        totalLikes: 0,
-        totalBookmarks: 0
-
-    });
-
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
 };
