@@ -34,7 +34,7 @@ export const register = async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        await prisma.user.create({
+        const user = await prisma.user.create({
             data: {
                 name,
                 email,
@@ -42,9 +42,23 @@ export const register = async (req, res) => {
             }
         });
 
+        // Issue a token immediately so the frontend can auto-login
+        const token = jwt.sign(
+            { id: user.id, role: user.role },
+            process.env.JWT_SECRET,
+            { expiresIn: "7d" }
+        );
+
         return res.status(201).json({
             success: true,
-            message: "Registration successful! Please log in."
+            message: "Registration successful!",
+            token,
+            user: {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                role: user.role
+            }
         });
 
     } catch (error) {

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../api/axios";
+import { useAuth } from "../context/AuthContext";
 import { useToast } from "../context/ToastContext";
 
 function PasswordStrength({ password }) {
@@ -38,6 +39,7 @@ export default function Register() {
     const [showPass, setShowPass] = useState(false);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const { login } = useAuth();
     const toast = useToast();
 
     const handleSubmit = async (e) => {
@@ -50,9 +52,11 @@ export default function Register() {
         }
         setLoading(true);
         try {
-            await api.post("/auth/register", { name, email, password });
-            toast.success("Account created! Please sign in.");
-            navigate("/login");
+            const res = await api.post("/auth/register", { name, email, password });
+            // Auto-login — no need to go to /login
+            login(res.data.user, res.data.token);
+            toast.success(`Welcome aboard, ${res.data.user.name}! 🎉`);
+            navigate("/dashboard");
         } catch (err) {
             toast.error(err.response?.data?.message || "Registration failed");
         } finally {
