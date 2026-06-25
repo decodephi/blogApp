@@ -80,7 +80,7 @@ export default function Navbar() {
                 display: "flex", alignItems: "center",
                 justifyContent: "space-between", height: 70
             }}>
-                {/* Logo */}
+                {/* Logo stack*/}
                 <Link to="/" style={{ textDecoration: "none" }}>
                     <span style={{
                         fontSize: 22, fontWeight: 800,
@@ -88,7 +88,7 @@ export default function Navbar() {
                         background: "linear-gradient(135deg, #a78bfa, #67e8f9)",
                         WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent"
                     }}>
-                        Philosophia
+                        Stack
                     </span>
                 </Link>
 
@@ -113,7 +113,7 @@ export default function Navbar() {
                     </div>
                 )}
 
-                {/* Right Side */}
+                {/* Right Side  for login and register*/}
                 <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
 
                     {/* Auth buttons / User menu — desktop */}
