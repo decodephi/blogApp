@@ -65,7 +65,7 @@ export default function Home() {
             {/* ── Hero ─────────────────────────────────────── */}
             <div className="hero-gradient" style={{ padding: "60px 0 48px" }}>
                 <div className="container" style={{ textAlign: "center" }}>
-                    <div style={{
+                    {/* <div style={{
                         display: "inline-flex", alignItems: "center", gap: 8,
                         padding: "6px 16px", borderRadius: 999,
                         background: "rgba(124,58,237,0.12)",
@@ -73,7 +73,7 @@ export default function Home() {
                         color: "#a78bfa", fontSize: 13, fontWeight: 600, marginBottom: 24
                     }}>
                         ✦ Knowledge for Everyone
-                    </div>
+                    </div> */}
 
                     <h1 style={{
                         fontFamily: "'Playfair Display', serif",
