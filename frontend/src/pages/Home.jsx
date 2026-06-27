@@ -10,7 +10,7 @@ const CATEGORIES = [
 
 export default function Home() {
     const [blogs, setBlogs] = useState([]);
-    const [trending, setTrending] = useState([]);
+
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
@@ -44,11 +44,7 @@ export default function Home() {
 
     useEffect(() => { fetchBlogs(); }, [fetchBlogs]);
 
-    useEffect(() => {
-        api.get("/blogs/trending")
-            .then(r => setTrending(r.data.blogs || r.data || []))
-            .catch(() => {});
-    }, []);
+
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -125,10 +121,9 @@ export default function Home() {
 
             {/* ── Main Content ──────────────────────────────── */}
             <div className="container" style={{ padding: "40px 24px 80px" }}>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 300px", gap: 40 }}
-                    className="lg:grid-cols-[1fr_300px] grid-cols-1">
+                <div>
 
-                    {/* Left Column */}
+                    {/* Blog Listings */}
                     <div>
                         {/* Category Pills */}
                         <div style={{
@@ -216,53 +211,6 @@ export default function Home() {
                                 )}
                             </>
                         )}
-                    </div>
-
-                    {/* Right Sidebar — Trending */}
-                    <div>
-                        <div style={{
-                            position: "sticky", top: 90,
-                            background: "var(--bg-surface)",
-                            border: "1px solid var(--border)",
-                            borderRadius: 16, padding: 24
-                        }}>
-                            <h3 style={{
-                                fontSize: 16, fontWeight: 700, marginBottom: 20,
-                                display: "flex", alignItems: "center", gap: 8
-                            }}>
-                                🔥 Trending
-                            </h3>
-
-                            {trending.length === 0 ? (
-                                <p style={{ color: "var(--text-muted)", fontSize: 13 }}>No trending articles yet</p>
-                            ) : (
-                                <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                                    {trending.map((blog, idx) => (
-                                        <a href={`/blog/${blog.slug}`} key={blog.id} style={{
-                                            display: "flex", gap: 12, textDecoration: "none",
-                                            padding: "10px 0",
-                                            borderBottom: idx < trending.length - 1 ? "1px solid var(--border)" : "none"
-                                        }}>
-                                            <span style={{
-                                                fontSize: 20, fontWeight: 800, color: "var(--text-muted)",
-                                                lineHeight: 1, minWidth: 24, fontFamily: "Inter, sans-serif"
-                                            }}>{idx + 1}</span>
-                                            <div>
-                                                <p style={{
-                                                    fontSize: 13, fontWeight: 600, lineHeight: 1.4,
-                                                    color: "var(--text-primary)", marginBottom: 4,
-                                                    display: "-webkit-box", WebkitLineClamp: 2,
-                                                    WebkitBoxOrient: "vertical", overflow: "hidden"
-                                                }}>{blog.title}</p>
-                                                <span style={{ fontSize: 11, color: "var(--text-muted)" }}>
-                                                    👁 {blog.views} views
-                                                </span>
-                                            </div>
-                                        </a>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
                     </div>
                 </div>
             </div>
